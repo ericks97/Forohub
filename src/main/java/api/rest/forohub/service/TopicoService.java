@@ -25,13 +25,6 @@ public class TopicoService {
     private final CursoRepository cursoRepository;
     private final UsuarioRepository usuarioRepository;
 
-//    @Transactional
-//    public DatosRespuestaTopicoDTO crear(CrearTopicoDTO crearTopicoDTO) {
-//        Topico topico = topicoRepository.save(new Topico(crearTopicoDTO));
-//        return new DatosRespuestaTopicoDTO(topico.getRespuestas(), topico.getId());
-//
-//    }
-
     @Transactional
     public DatosRespuestaTopicoDTO crear(CrearTopicoDTO entidad) {
         // REGLA DE NEGOCIO: No duplicados
@@ -39,7 +32,7 @@ public class TopicoService {
             throw new ValidacionDeIntegridadException("Ya existe un tópico con el mismo título y mensaje.");
         }
 
-////        // BÚSQUEDA DE ENTIDADES
+       // BÚSQUEDA DE ENTIDADES
         Usuario autor = usuarioRepository.findById(entidad.autorId())
                 .orElseThrow(() -> new ValidacionDeIntegridadException("Autor no encontrado."));
         Curso curso = cursoRepository.findById(entidad.cursoId())
@@ -47,8 +40,6 @@ public class TopicoService {
 
 
         // CREACIÓN Y PERSISTENCIA
-
-//        Topico topico = new Topico(dto.titulo(), dto.mensaje(), autor, curso); // (Asegúrate de tener este constructor en tu entidad Topico)
         Topico topico = new Topico(entidad, autor, curso);
         topicoRepository.save(topico);
 
