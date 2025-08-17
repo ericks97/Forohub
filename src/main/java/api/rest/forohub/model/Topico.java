@@ -1,12 +1,12 @@
 package api.rest.forohub.model;
 
 
+import api.rest.forohub.dto.CrearTopicoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "Topico")
@@ -34,5 +34,18 @@ public class Topico {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas = new ArrayList<>();
 
-
+    public Topico(CrearTopicoDTO dto, Usuario autor, Curso curso) {
+        this.titulo = dto.titulo();
+        this.mensaje = dto.mensaje();
+        this.autor = autor;
+        this.curso = curso;
+        this.fechaCreacion = LocalDateTime.now();
+        this.status = true;
+    }
+    public void desactivar() {
+        this.status = false;
+    }
 }
+
+
+
